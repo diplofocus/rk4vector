@@ -102,15 +102,6 @@ int main()
       //k1 begin
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].v1.x += bodies[i].a1.x * dt;
-	  bodies[i].v1.y += bodies[i].a1.y * dt;
-
-	  bodies[i].r1.x += bodies[i].v1.x * dt;
-	  bodies[i].r1.y += bodies[i].v1.y * dt;
-	}
-
-      for(int i = 0; i < elements; i++)
-	{
 	  for(int j = 0; j < elements; j++)
 	    {
 	      if(j == i)
@@ -118,6 +109,11 @@ int main()
 	      bodies[i].a1.x += -G * bodies[j].m * (bodies[i].r1.x - bodies[j].r1.x) / cube(dist(bodies[i].r1, bodies[j].r1));
 	      bodies[i].a1.y += -G * bodies[j].m * (bodies[i].r1.y - bodies[j].r1.y) / cube(dist(bodies[i].r1, bodies[j].r1));
 	    }
+	}
+      for(int i = 0; i < elements; i++)
+	{
+	  bodies[i].r1 = bodies[i].r;
+	  bodies[i].v1 = bodies[i].v;
 	}
 
       //k1 end
