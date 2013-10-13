@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const int elements = 1;
+const int elements = 5;
 const double tmax = 100 * 3.15569e7;
 const double dt = 10 * 3600;
 const double G = 6.67e-11;
@@ -27,7 +27,7 @@ double sqr(double a)
 
 double dist(Vect A, Vect B)
 {
-  return sqrt(sqr(B.x - A.x) + (B.y - A.y));
+  return sqrt(sqr(B.x - A.x) + sqr(B.y - A.y));
 }
 
 class Body
@@ -82,21 +82,31 @@ int main()
   for(double t = 0; t < tmax; t+=dt)
     {
 
+
+
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].r1.x = bodies[i].r.x;
-	  bodies[i].v1.x = bodies[i].v.x;
-	  out << bodies[i].r.x << " " << bodies[i].r.y;
+	  bodies[i].r1 = bodies[i].r;
+	  bodies[i].v1 = bodies[i].v;
+	  
+	  bodies[i].a1.x = 0;
+	  bodies[i].a1.y = 0;
+	  bodies[i].a2.x = 0;
+	  bodies[i].a2.y = 0;
+	  bodies[i].a3.x = 0;
+	  bodies[i].a3.y = 0;
+	  bodies[i].a4.x = 0;
+	  bodies[i].a4.y = 0;
 	}
 
       //k1 begin
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].v1.x = bodies[i].a1.x * dt;
-	  bodies[i].v1.y = bodies[i].a1.y * dt;
+	  bodies[i].v1.x += bodies[i].a1.x * dt;
+	  bodies[i].v1.y += bodies[i].a1.y * dt;
 
-	  bodies[i].r1.x = bodies[i].v1.x * dt;
-	  bodies[i].r1.y = bodies[i].v1.y * dt;
+	  bodies[i].r1.x += bodies[i].v1.x * dt;
+	  bodies[i].r1.y += bodies[i].v1.y * dt;
 	}
 
       for(int i = 0; i < elements; i++)
@@ -105,8 +115,8 @@ int main()
 	    {
 	      if(j == i)
 		continue;
-	      bodies[i].a1.x = -G * bodies[j].m * (bodies[i].r1.x - bodies[j].r1.x) / cube(dist(bodies[i].r1, bodies[j].r1));
-	      bodies[i].a1.y = -G * bodies[j].m * (bodies[i].r1.y - bodies[j].r1.y) / cube(dist(bodies[i].r1, bodies[j].r1));
+	      bodies[i].a1.x += -G * bodies[j].m * (bodies[i].r1.x - bodies[j].r1.x) / cube(dist(bodies[i].r1, bodies[j].r1));
+	      bodies[i].a1.y += -G * bodies[j].m * (bodies[i].r1.y - bodies[j].r1.y) / cube(dist(bodies[i].r1, bodies[j].r1));
 	    }
 	}
 
@@ -116,11 +126,11 @@ int main()
       //k2 begin
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].v2.x = bodies[i].a1.x * dt/2;
-	  bodies[i].v2.y = bodies[i].a1.y * dt/2;
+	  bodies[i].v2.x += bodies[i].a1.x * dt/2;
+	  bodies[i].v2.y += bodies[i].a1.y * dt/2;
 
-	  bodies[i].r2.x = bodies[i].v2.x * dt/2;
-	  bodies[i].r2.y = bodies[i].v2.y * dt/2;
+	  bodies[i].r2.x += bodies[i].v2.x * dt/2;
+	  bodies[i].r2.y += bodies[i].v2.y * dt/2;
 	}
 
       for(int i = 0; i < elements; i++)
@@ -129,8 +139,8 @@ int main()
 	    {
 	      if(j == i)
 		continue;
-	      bodies[i].a2.x = -G * bodies[j].m * (bodies[i].r2.x - bodies[j].r2.x) / cube(dist(bodies[i].r2, bodies[j].r2));
-	      bodies[i].a2.y = -G * bodies[j].m * (bodies[i].r2.y - bodies[j].r2.y) / cube(dist(bodies[i].r2, bodies[j].r2));
+	      bodies[i].a2.x += -G * bodies[j].m * (bodies[i].r2.x - bodies[j].r2.x) / cube(dist(bodies[i].r2, bodies[j].r2));
+	      bodies[i].a2.y += -G * bodies[j].m * (bodies[i].r2.y - bodies[j].r2.y) / cube(dist(bodies[i].r2, bodies[j].r2));
 	    }
 	}
       //k2 end
@@ -138,11 +148,11 @@ int main()
       //k3 begin
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].v3.x = bodies[i].a2.x * dt/2;
-	  bodies[i].v3.y = bodies[i].a2.y * dt/2;
+	  bodies[i].v3.x += bodies[i].a2.x * dt/2;
+	  bodies[i].v3.y += bodies[i].a2.y * dt/2;
 
-	  bodies[i].r3.x = bodies[i].v3.x * dt/2;
-	  bodies[i].r3.y = bodies[i].v3.y * dt/2;
+	  bodies[i].r3.x += bodies[i].v3.x * dt/2;
+	  bodies[i].r3.y += bodies[i].v3.y * dt/2;
 	}
 
       for(int i = 0; i < elements; i++)
@@ -151,8 +161,8 @@ int main()
 	    {
 	      if(j == i)
 		continue;
-	      bodies[i].a3.x = -G * bodies[j].m * (bodies[i].r3.x - bodies[j].r3.x) / cube(dist(bodies[i].r3, bodies[j].r3));
-	      bodies[i].a3.y = -G * bodies[j].m * (bodies[i].r3.y - bodies[j].r3.y) / cube(dist(bodies[i].r3, bodies[j].r3));
+	      bodies[i].a3.x += -G * bodies[j].m * (bodies[i].r3.x - bodies[j].r3.x) / cube(dist(bodies[i].r3, bodies[j].r3));
+	      bodies[i].a3.y += -G * bodies[j].m * (bodies[i].r3.y - bodies[j].r3.y) / cube(dist(bodies[i].r3, bodies[j].r3));
 	    }
 	}
       //k3 end
@@ -160,11 +170,11 @@ int main()
       //k4 begin
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].v4.x = bodies[i].a3.x * dt/2;
-	  bodies[i].v4.y = bodies[i].a3.y * dt/2;
+	  bodies[i].v4.x += bodies[i].a3.x * dt/2;
+	  bodies[i].v4.y += bodies[i].a3.y * dt/2;
 
-	  bodies[i].r4.x = bodies[i].v4.x * dt/2;
-	  bodies[i].r4.y = bodies[i].v4.y * dt/2;
+	  bodies[i].r4.x += bodies[i].v4.x * dt/2;
+	  bodies[i].r4.y += bodies[i].v4.y * dt/2;
 	}
 
       for(int i = 0; i < elements; i++)
@@ -173,8 +183,8 @@ int main()
 	    {
 	      if(j == i)
 		continue;
-	      bodies[i].a4.x = -G * bodies[j].m * (bodies[i].r4.x - bodies[j].r4.x) / cube(dist(bodies[i].r4, bodies[j].r4));
-	      bodies[i].a4.y = -G * bodies[j].m * (bodies[i].r4.y - bodies[j].r4.y) / cube(dist(bodies[i].r4, bodies[j].r4));
+	      bodies[i].a4.x += -G * bodies[j].m * (bodies[i].r4.x - bodies[j].r4.x) / cube(dist(bodies[i].r4, bodies[j].r4));
+	      bodies[i].a4.y += -G * bodies[j].m * (bodies[i].r4.y - bodies[j].r4.y) / cube(dist(bodies[i].r4, bodies[j].r4));
 	    }
 	}
       //k4 end
@@ -182,10 +192,10 @@ int main()
       //sum
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].r.x = dt/6 * (bodies[i].v1.x + 2*bodies[i].v2.x + 2*bodies[i].v3.x + bodies[i].v4.x);
-	  bodies[i].r.y = dt/6 * (bodies[i].v1.y + 2*bodies[i].v2.y + 2*bodies[i].v3.y + bodies[i].v4.y);
-	  bodies[i].v.x = dt/6 * (bodies[i].a1.x + 2*bodies[i].a2.x + 2*bodies[i].a3.x + bodies[i].a4.x);
-	  bodies[i].v.y = dt/6 * (bodies[i].a1.y + 2*bodies[i].a2.y + 2*bodies[i].a3.y + bodies[i].a4.y);
+	  bodies[i].r.x += dt/6 * (bodies[i].v1.x + 2*bodies[i].v2.x + 2*bodies[i].v3.x + bodies[i].v4.x);
+	  bodies[i].r.y += dt/6 * (bodies[i].v1.y + 2*bodies[i].v2.y + 2*bodies[i].v3.y + bodies[i].v4.y);
+	  bodies[i].v.x += dt/6 * (bodies[i].a1.x + 2*bodies[i].a2.x + 2*bodies[i].a3.x + bodies[i].a4.x);
+	  bodies[i].v.y += dt/6 * (bodies[i].a1.y + 2*bodies[i].a2.y + 2*bodies[i].a3.y + bodies[i].a4.y);
 
 	  out << bodies[i].r.x << " " << bodies[i].r.y << endl;
 	}
