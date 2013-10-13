@@ -27,8 +27,7 @@ double sqr(double a)
 
 double dist(Vect A, Vect B)
 {
-  // return sqrt(sqr(B.x - A.x) + (B.y - A.y));
-  return 5;
+  return sqrt(sqr(B.x - A.x) + (B.y - A.y));
 }
 
 class Body
