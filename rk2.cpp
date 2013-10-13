@@ -137,22 +137,22 @@ int main()
 
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].v2.x += bodies[i].a1.x * dt/2;
-	  bodies[i].v2.y += bodies[i].a1.y * dt/2;
+	  bodies[i].v2.x = bodies[i].v.x + bodies[i].a1.x * dt/2;
+	  bodies[i].v2.y = bodies[i].v.y + bodies[i].a1.y * dt/2;
 
-	  bodies[i].r2.x += bodies[i].v1.x * dt/2;
-	  bodies[i].r2.y += bodies[i].v1.y * dt/2;
+	  bodies[i].r2.x = bodies[i].r.x + bodies[i].v1.x * dt/2;
+	  bodies[i].r2.y = bodies[i].r.y + bodies[i].v1.y * dt/2;
 	}
       //k2 end
 
       //k3 begin
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].v3.x += bodies[i].a2.x * dt/2;
-	  bodies[i].v3.y += bodies[i].a2.y * dt/2;
+	  bodies[i].v3.x = bodies[i].v.x + bodies[i].a2.x * dt/2;
+	  bodies[i].v3.y = bodies[i].v.y + bodies[i].a2.y * dt/2;
 
-	  bodies[i].r3.x += bodies[i].v2.x * dt/2;
-	  bodies[i].r3.y += bodies[i].v2.y * dt/2;
+	  bodies[i].r3.x = bodies[i].r.x + bodies[i].v2.x * dt/2;
+	  bodies[i].r3.y = bodies[i].r.y + bodies[i].v2.y * dt/2;
 	}
 
       for(int i = 0; i < elements; i++)
@@ -170,11 +170,11 @@ int main()
       //k4 begin
       for(int i = 0; i < elements; i++)
 	{
-	  bodies[i].v4.x += bodies[i].a3.x * dt/2;
-	  bodies[i].v4.y += bodies[i].a3.y * dt/2;
+	  bodies[i].v4.x = bodies[i].v.x + bodies[i].a3.x * dt/2;
+	  bodies[i].v4.y = bodies[i].v.y + bodies[i].a3.y * dt/2;
 
-	  bodies[i].r4.x += bodies[i].v3.x * dt/2;
-	  bodies[i].r4.y += bodies[i].v3.y * dt/2;
+	  bodies[i].r4.x = bodies[i].r.x + bodies[i].v3.x * dt/2;
+	  bodies[i].r4.y = bodies[i].r.y + bodies[i].v3.y * dt/2;
 	}
 
       for(int i = 0; i < elements; i++)
